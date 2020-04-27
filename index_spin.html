@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Values Spinner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="CSS/style.css">
+	
+	<link rel="stylesheet" type="text/css" href="CSS/index.css">
+
+	<script type="text/javascript" src="Js/Winwheel.js"></script>
+	<script type="text/javascript" src="Js/custom.js"></script>
+	<script type="text/javascript" src="Js/tincan-min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+	
+</head>
+<body style="background-color: white;">
+
+<div class="container-fluid">
+  
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+	    <div class="row">
+			<img id="logo" src="img/logo_Blue.png"/>
+              
+		</div>
+		<div class="row" id="form1" >
+             <div align="center" id="cont1">
+					<div align="center">
+					<p class="name"><b>Hi</b></p>
+					<p class="txt"> <b>Welcome to the game! Click the wheel to spin it.</b></p>
+					 <table>
+						<tr>
+							<td width="338" height="390" class="the_wheel" align="center" valign="center">
+								<div id="canvasContainer ">
+								<canvas id="canvas" width="434" height="434" onClick="startSpin();">
+									<p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
+								</canvas>
+								 <img id="prizePointer" src="img/pointer.png" width="45" alt="V" />
+									</div>
+							</td>
+						</tr>
+					</table>
+			
+        		</div>	
+			
+        		</div>
+		</div>
+		<div class="row" id="footer1">
+			 	
+			 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> 
+				 
+				 <h2 id="f-title1"> <img id="top" src="img/Footer_img_blue.png" alt="logo" width="65" height="65"> LIVING OUR VALUES </h2>
+		     </div>
+		     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left: 0px;"> <img id="top1" src="img/Line-blue.png" alt="logo" width="280" height="3">
+			</div>
+			 
+		</div>
+	</div>
+	  
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="bg1">
+	<div id="myModal" class="modal " >
+				  <div class="modal-content">
+					  <div class="modal-header">
+					   <h4 class="modal-title">Your Question</h4> 
+					  </div>
+					  <div class="modal-body">
+					  <p id="popup-content"> </p> 
+					  </div>
+					  <div class="modal-footer">
+					  <p class="modal-btxt">You can click the wheel to spin it again.</p4> 
+		              </div>	
+		          </div>
+		
+	</div>
+    
+  </div>
+</div>
+<script type="text/javascript">
+    var url = window.location.href.split('?=');
+    var urlData = url[1];
+	var name = urlData.replace("%20"," ");
+	$(".name").text("Hi "+name);
+	
+   var myVar;
+		  
+	/*********************Spinner start ***********************/ 
+    // Create new wheel object specifying the parameters at creation time.
+	let theWheel = new Winwheel({
+		        'numSegments'       : 15,            // Specify number of segments.
+                'outerRadius'       : 150,          // Set outer radius so wheel fits inside the background.
+                'drawMode'          : 'image',      // drawMode must be set to image.
+                'drawText'          : true,         // Need to set this true if want code-drawn text on image wheels.
+                'textFontSize'      : 0,
+                'textOrientation'   : 'curved',     // Note use of curved text.
+                'textDirection'     : 'reversed',   // Set other text options as desired.
+                'textAlignment'     : 'outer',
+                'textMargin'        : 5,
+                'textFontFamily'    : 'monospace',
+                'textStrokeStyle'   : 'black',
+                'textLineWidth'     : 2,
+                'textFillStyle'     : '#fffff',
+                'segments'     :                // Define segments.
+                [
+                   {'text' : '1'}, {'text' : '2'}, {'text' : '3'}, {'text' : '4'}, {'text' : '5'}, {'text' : '6'}, {'text' : '7'},
+				   {'text' : '8'}, {'text' : '9'}, {'text' : '10'},{'text' : '11'},{'text' : '12'},{'text' : '13'},{'text' : '14'},   
+                   {'text' : '15'}
+                ],
+                'animation' :                   // Specify the animation to use.
+                {
+                    'type'     : 'spinToStop',
+                    'duration' : 5,             // Duration in seconds.
+                    'spins'    : 8,             // Number of complete spins.
+                    'callbackFinished' : alertPrize
+                }
+            });
+
+    // Create new image object in memory.
+    let loadedImg = new Image();
+
+    // Create callback to execute once the image has finished loading.
+    loadedImg.onload = function()
+    {
+        theWheel.wheelImage = loadedImg;    // Make wheelImage equal the loaded image object.
+        theWheel.draw();                    // Also call draw function to render the wheel.
+    }
+
+    // Set the image source, once complete this will trigger the onLoad callback (above).
+    loadedImg.src = "img/img2.png";
+
+	// Vars used by the code in this page to do power controls.
+	let wheelPower    = 0;
+	let wheelSpinning = false;
+
+	// -------------------------------------------------------
+	// Click handler for spin button.
+	// -------------------------------------------------------
+	// Called by the onClick of the canvas, starts the spinning.
+	function startSpin()
+	{
+		$(".modal").hide();
+		// Stop any current animation.
+		theWheel.stopAnimation(false);
+
+		// Reset the rotation angle to less than or equal to 360 so spinning again
+		// works as expected. Setting to modulus (%) 360 keeps the current position.
+		theWheel.rotationAngle = theWheel.rotationAngle % 360;
+
+		// Start animation.
+		theWheel.startAnimation();
+
+		clearTimeout(myVar);
+	}
+
+	// -------------------------------------------------------
+	// Function for reset button.
+	// -------------------------------------------------------
+	function resetWheel()
+	{
+		theWheel.stopAnimation(false);  // Stop the animation, false as param so does not call callback function.
+		theWheel.rotationAngle = 0;     // Re-set the wheel angle to 0 degrees.
+		theWheel.draw();                // Call draw to render changes to the wheel.
+		wheelSpinning = false;          // Reset to false to power buttons and spin can be clicked again.
+	}
+
+	// -------------------------------------------------------
+	// Called when the spin animation has finished by the callback feature of the wheel because I specified callback in the parameters.
+	// note the indicated segment is passed in as a parmeter as 99% of the time you will want to know this to inform the user of their prize.
+	// -------------------------------------------------------
+	function alertPrize(indicatedSegment)
+	{
+		// Do basic alert of the segment text. You would probably want to do something more interesting with this information.
+
+        // XAPI datas
+		/*var vid= "http://user/intraction/assigned";
+		var und = "is assigned";
+		var enUS = indicatedSegment.text;
+		var Content ="Course Assignment";
+		send(eid,name,vid,und,enUS,Content);*/
+		
+		//Declared for assigning modal popup texts
+		var txt;
+		
+		// Popup questions text assignment
+		switch (indicatedSegment.text) 
+		{
+		  case "1":
+                  txt="List 5 words you associate with this value.";
+				  $(".modal-content").css("background-color", "#6E2177");
+				  $(".modal-title").text("Courage");
+                  break;
+		  case "2":
+                  txt="Share an example of where you’ve seen this value in action.";
+				  $(".modal-content").css("background-color", "#01A3A1");
+				  $(".modal-title").text("Excellence");
+                  break;
+		  case "3":
+                  txt="Describe what this value means to you.";
+				  $(".modal-content").css("background-color", "#01A3A1");
+				  $(".modal-title").text("Excellence");
+                  break;
+		  case "4":
+                  txt="Describe how this value helps us to build long-term trust in KPMG.";
+				  $(".modal-content").css("background-color", "#01A3A1");
+				  $(".modal-title").text("Excellence");
+                  break;
+		  case "5":
+                  txt="Describe how you feel when others demonstrate this value.";
+				  $(".modal-content").css("background-color", "#015FB8");
+				  $(".modal-title").text("Integrity");
+                  break;
+		  case "6":
+                  txt="What would you like to see KPMG do more of to live this value?";
+				  $(".modal-content").css("background-color", "#015FB8");
+				  $(".modal-title").text("Integrity");
+                  break;
+		  case "7":
+                  txt="Describe how this value improves our client experience.";
+				  $(".modal-content").css("background-color", "#015FB8");
+				  $(".modal-title").text("Integrity");
+                  break;				
+          case "8":
+                  txt="How well from 1-10 does KPMG currently live this value, why that score?";
+				  $(".modal-content").css("background-color", "#493798");
+				  $(".modal-title").text("For Better");
+                  break;
+          case "9":
+                  txt="Why is this value important to your team/function?";
+				  $(".modal-content").css("background-color", "#493798");
+				  $(".modal-title").text("For Better");
+                  break;
+          case "10":
+                  txt="How does this value improve people’s experience of working at KPMG?";
+				  $(".modal-content").css("background-color", "#493798");
+				  $(".modal-title").text("For Better");
+                  break;
+          case "11":
+                  txt="If you ranked the values in order of importance (1 being the highest), where would this Value appear and why?";
+				  $(".modal-content").css("background-color", "#01348D");
+				  $(".modal-title").text("Together");
+                  break;
+          case "12":
+                  txt="List two examples of where this value could be an opportunity for KPMG and two where it could be a risk.";
+				  $(".modal-content").css("background-color", "#01348D");
+				  $(".modal-title").text("Together");
+                  break;
+          case "13":
+                  txt="Share a story where a company you have worked with has failed to live up to this/a similar value";
+				  $(".modal-content").css("background-color", "#01348D");
+				  $(".modal-title").text("Together");
+                  break;
+          case "14":
+                  txt="Share a story of when this value helped you navigate a dilemma.";
+				  $(".modal-content").css("background-color", "#6E2177");
+				  $(".modal-title").text("Courage");
+                  break;
+          case "15":
+                  txt="Share a story of when this value helped you make a decision.";
+				  $(".modal-content").css("background-color", "#6E2177");
+				  $(".modal-title").text("Courage");
+		      break;
+		}	
+		
+      // Modal display
+      var modal = document.getElementById("myModal");
+      document.getElementById("popup-content").innerHTML = txt ;
+      modal.style.display = "block";
+    }
+	// Game replay
+	function replay(){ 
+		var modal = document.getElementById("myModal");
+		modal.style.display = "none";
+		resetWheel();
+	}
+ /*********************Spinner End ***********************/   
+</script>
+</body>
+</html>
