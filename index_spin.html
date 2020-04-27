@@ -183,86 +183,136 @@
 		
 		//Declared for assigning modal popup texts
 		var txt;
-		
+		var rand =Math.floor(Math.random() * 15) + 1; 
 		// Popup questions text assignment
-		switch (indicatedSegment.text) 
+		switch (rand) 
 		{
-		  case "1":
+		  case 1:
                   txt="List 5 words you associate with this value.";
-				  $(".modal-content").css("background-color", "#6E2177");
-				  $(".modal-title").text("Courage");
+				  
                   break;
-		  case "2":
-                  txt="Share an example of where you’ve seen this value in action.";
-				  $(".modal-content").css("background-color", "#01A3A1");
-				  $(".modal-title").text("Excellence");
+		  case 2:
+                  txt="Share an example of where you have seen this value in action.";
+				  
                   break;
-		  case "3":
+		  case 3:
                   txt="Describe what this value means to you.";
-				  $(".modal-content").css("background-color", "#01A3A1");
-				  $(".modal-title").text("Excellence");
+				
                   break;
-		  case "4":
+		  case 4:
                   txt="Describe how this value helps us to build long-term trust in KPMG.";
-				  $(".modal-content").css("background-color", "#01A3A1");
-				  $(".modal-title").text("Excellence");
+				  
                   break;
-		  case "5":
+		  case 5:
                   txt="Describe how you feel when others demonstrate this value.";
-				  $(".modal-content").css("background-color", "#015FB8");
-				  $(".modal-title").text("Integrity");
+				  
                   break;
-		  case "6":
+		  case 6:
                   txt="What would you like to see KPMG do more of to live this value?";
-				  $(".modal-content").css("background-color", "#015FB8");
-				  $(".modal-title").text("Integrity");
+				  
                   break;
-		  case "7":
+		  case 7:
                   txt="Describe how this value improves our client experience.";
-				  $(".modal-content").css("background-color", "#015FB8");
-				  $(".modal-title").text("Integrity");
+				  
                   break;				
-          case "8":
+          case 8:
                   txt="How well from 1-10 does KPMG currently live this value, why that score?";
-				  $(".modal-content").css("background-color", "#493798");
-				  $(".modal-title").text("For Better");
+				  
                   break;
-          case "9":
+          case 9:
                   txt="Why is this value important to your team/function?";
-				  $(".modal-content").css("background-color", "#493798");
-				  $(".modal-title").text("For Better");
+				  
                   break;
-          case "10":
-                  txt="How does this value improve people’s experience of working at KPMG?";
-				  $(".modal-content").css("background-color", "#493798");
-				  $(".modal-title").text("For Better");
+          case 10:
+                  txt="How does this value improve the experience of people while working at KPMG?";
+				  
                   break;
-          case "11":
-                  txt="If you ranked the values in order of importance (1 being the highest), where would this Value appear and why?";
-				  $(".modal-content").css("background-color", "#01348D");
-				  $(".modal-title").text("Together");
+          case 11:
+                  txt="If you ranked the values in order of importance (1 being the highest), where would this value appear and why?";
+				  
                   break;
-          case "12":
+          case 12:
                   txt="List two examples of where this value could be an opportunity for KPMG and two where it could be a risk.";
-				  $(".modal-content").css("background-color", "#01348D");
-				  $(".modal-title").text("Together");
+				  
                   break;
-          case "13":
+          case 13:
                   txt="Share a story where a company you have worked with has failed to live up to this/a similar value";
-				  $(".modal-content").css("background-color", "#01348D");
-				  $(".modal-title").text("Together");
+				  
                   break;
-          case "14":
+          case 14:
                   txt="Share a story of when this value helped you navigate a dilemma.";
-				  $(".modal-content").css("background-color", "#6E2177");
-				  $(".modal-title").text("Courage");
+				  
                   break;
-          case "15":
+			case 15:
                   txt="Share a story of when this value helped you make a decision.";
-				  $(".modal-content").css("background-color", "#6E2177");
-				  $(".modal-title").text("Courage");
+				  
 		      break;
 		}	
+		
+		if(indicatedSegment.text=="1"){
+			$(".modal-content").css("background-color", "#6E2177");
+				  $(".modal-title").text("Courage");
+		}
+		if(indicatedSegment.text=="14"){
+			$(".modal-content").css("background-color", "#6E2177");
+				  $(".modal-title").text("Courage");
+		}
+		if(indicatedSegment.text=="15"){
+			$(".modal-content").css("background-color", "#6E2177");
+				  $(".modal-title").text("Courage");
+		}
+		if(indicatedSegment.text=="2"){
+			$(".modal-content").css("background-color", "#01A3A1");
+				  $(".modal-title").text("Excellence");
+		}
+		if(indicatedSegment.text=="3"){
+			$(".modal-content").css("background-color", "#01A3A1");
+				  $(".modal-title").text("Excellence");
+		}
+		if(indicatedSegment.text=="4"){
+			$(".modal-content").css("background-color", "#01A3A1");
+				  $(".modal-title").text("Excellence");
+		}
+		
+		if(indicatedSegment.text=="5"){
+			$(".modal-content").css("background-color", "#015FB8");
+				  $(".modal-title").text("Integrity");
+		}
+		if(indicatedSegment.text=="6"){
+			$(".modal-content").css("background-color", "#015FB8");
+				  $(".modal-title").text("Integrity");
+		}
+		if(indicatedSegment.text=="7"){
+			$(".modal-content").css("background-color", "#015FB8");
+				  $(".modal-title").text("Integrity");
+		}
+		
+		if(indicatedSegment.text=="8"){
+			$(".modal-content").css("background-color", "#493798");
+				  $(".modal-title").text("For Better");
+		}
+		if(indicatedSegment.text=="9"){
+			$(".modal-content").css("background-color", "#493798");
+				  $(".modal-title").text("For Better");
+		}
+		if(indicatedSegment.text=="10"){
+			$(".modal-content").css("background-color", "#493798");
+				  $(".modal-title").text("For Better");
+		}
+		
+		if(indicatedSegment.text=="11"){
+			$(".modal-content").css("background-color", "#01348D");
+				  $(".modal-title").text("Together");
+		}
+		if(indicatedSegment.text=="12"){
+			$(".modal-content").css("background-color", "#01348D");
+				  $(".modal-title").text("Together");
+		}
+		if(indicatedSegment.text=="13"){
+			$(".modal-content").css("background-color", "#01348D");
+				  $(".modal-title").text("Together");
+		}
+		
 		
       // Modal display
       var modal = document.getElementById("myModal");
